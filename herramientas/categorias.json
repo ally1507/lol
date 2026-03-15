@@ -1,0 +1,18 @@
+[
+    {
+        "id": 1,
+        "nombre": "CONSTRUCCION"
+    },
+    {
+        "id": 2,
+        "nombre": "JARDINERIA"
+    },
+    {
+        "id": 3,
+        "nombre": "ELECTRICOS"
+    },
+    {
+        "id": 4,
+        "nombre": "MECANICA"
+    }
+]
