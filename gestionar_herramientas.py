@@ -12,8 +12,14 @@ def seleccionar_estado():
     3.Malo
     4.salir
                 ''', 1,4)
-
-
+    if op==1:
+        return 'Bueno'
+    elif op==2:
+        return 'regular'
+    elif op==3:
+        return 'malo'
+    else:
+        print('saliendo')
 
 def guardar_herramientas():
     registros=cargar(NOMBRE_ARCHIVO)
@@ -38,7 +44,19 @@ def listar_herramientas():
             Disponibilidad:      {elemento.get('cantidad_disponible','clave erronea')}
             Estado               {elemento.get('estado','clave erronea')}
             ''')
-        
+def listar_herramientas_disponiles():
+    registros=cargar(NOMBRE_ARCHIVO)
+    for elemento in registros:
+        if elemento.get('cantidad_disponible') > 0:
+            print(f'''
+                ****************************
+                ID:                  {elemento.get('id','clave erronea')}
+                Nombre:              {elemento.get('nombre','clave erronea')}
+                Categoria:           {elemento.get('categoria','clave erronea')}
+                Disponibilidad:      {elemento.get('cantidad_disponible','clave erronea')}
+                Estado               {elemento.get('estado','clave erronea')}
+                ''')
+
 def buscar_herramientas():
     registros=cargar(NOMBRE_ARCHIVO)
     if not registros:
@@ -118,13 +136,7 @@ def eliminar_herramientas():
                 guardar(NOMBRE_ARCHIVO,registros)
                 return
         print('NO SE ENCONTRÓ EL ID: ',id)
-def validar_herramienta():
-    registros = cargar(NOMBRE_ARCHIVO)
-    for elemento in registros:
-       if elemento.get('id', 'clave no encontrada')==id:
-            return elemento
-    return 
-         
+      
 def actualizar_herramientas(id_herramienta, cantidad, operacion='restar'):
     registros = cargar(NOMBRE_ARCHIVO)
     for elemento in registros:

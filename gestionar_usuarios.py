@@ -4,6 +4,16 @@ from gestionar_categorias import validar_categoria, listar_categorias
 
 NOMBRE_ARCHIVO='usuarios.json'
 
+def tipo_usuario():
+    op=validar_menu('''
+    Seleccioneque usuario es:
+     1. Residente
+     2. Administrador
+     3. Salir
+
+
+''', 1,3)
+
 def guardar_usuarios():
     registros=cargar(NOMBRE_ARCHIVO)
     diccionario={}
@@ -12,13 +22,7 @@ def guardar_usuarios():
     diccionario['apellido']=input('Ingrese su apellido: ')
     diccionario['telefono']=validar_entero('Ingrese su telefono: ')
     diccionario['direccion']=input('Ingrese su direccion: ')
-
-    listar_categorias()
-    id_cat=validar_entero('Ingrese el codigo de la categoria: ')
-    while(validar_categoria(id_cat)==False):
-        id_cat=validar_entero('Error, categoria no encontrada. Intente nuevamente: ')
-    diccionario['categoria']=validar_categoria(id_cat)
-    
+    diccionario['tipo_usuario']=tipo_usuario()
     registros.append(diccionario)
     guardar(NOMBRE_ARCHIVO,registros)
     print('PRODUCTO GUARDADO CORRECTAMENTE!')
@@ -64,7 +68,7 @@ def actualizar_usuarios():
         print('No se puede actualizar porque no hay registros')
     else:
         listar_usuarios()
-        id=int(input("Ingrese el id a actualizar: "))
+        id=validar_entero("Ingrese el id a actualizar: "))
         for elemento in registros:
             if elemento.get('id', 'clave no encontrada')==id:
                 op_actualizar=validar_menu('''
@@ -77,16 +81,16 @@ def actualizar_usuarios():
                                         ''',1,6)
                 match op_actualizar:
                     case 1:
-                        elemento['nombre']=input('Ingrese el nombre del producto: ')
+                        elemento['nombre']=validar_texto('Ingrese el nombre del producto: ')
                     case 2:
-                        elemento['apellido']=input('Ingrese el apellido: ')
-                    case 2:
-                        elemento['telefono']=input('Ingrese el telefono: ')
-                    case 2:
-                        elemento['direccion']=input('Ingrese la direccion: ')
-                    case 2:
-                        elemento['tipo_usuario']=input('Ingrese el tipo de usuario: ')
+                        elemento['apellido']=validar_texto('Ingrese el apellido: ')
                     case 3:
+                        elemento['telefono']=validar_entero('Ingrese el telefono: ')
+                    case 4:
+                        elemento['direccion']=validar_texto('Ingrese la direccion: ')
+                    case 5:
+                        elemento['tipo_usuario']=tipo_usuario()
+                    case 6:
                         print('Operación cancelada!')    
                 guardar(NOMBRE_ARCHIVO, registros)
                 print('DATO ACTUALIZADO!')

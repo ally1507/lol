@@ -1,6 +1,7 @@
 from validaciones import validar_menu
 from menu_herramientas import menu_herramientas
 from menu_categorias import menu_categorias
+from menu_usuarios import menu_usuarios
 from gestionar_usuarios import guardar_usuarios
 from menu_prestamos import menu_prestamos
 from menu_usuarios import menu_usuarios
