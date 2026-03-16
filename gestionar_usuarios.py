@@ -68,7 +68,7 @@ def actualizar_usuarios():
         print('No se puede actualizar porque no hay registros')
     else:
         listar_usuarios()
-        id=validar_entero("Ingrese el id a actualizar: "))
+        id=validar_entero("Ingrese el id a actualizar: ")
         for elemento in registros:
             if elemento.get('id', 'clave no encontrada')==id:
                 op_actualizar=validar_menu('''

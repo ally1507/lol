@@ -35,6 +35,9 @@ def guardar_herramientas():
 
 def listar_herramientas():
     registros=cargar(NOMBRE_ARCHIVO)
+    if not registros:
+        print('No hay registros')
+        return
     for elemento in registros:
         print(f'''
             ****************************
@@ -46,6 +49,9 @@ def listar_herramientas():
             ''')
 def listar_herramientas_disponiles():
     registros=cargar(NOMBRE_ARCHIVO)
+    if not registros:
+        print('no hay registros')
+        return
     for elemento in registros:
         if elemento.get('cantidad_disponible') > 0:
             print(f'''

@@ -1,6 +1,8 @@
-from gestionar_herramientas import listar_herramientas_disponiles
+from gestionar_herramientas import listar_herramientas_disponiles,actualizar_herramientas
 from gestionar_json import *
-from validaciones import validar_menu,validar_entero
+from validaciones import validar_menu,validar_entero,validar_texto
+from gestionar_usuarios import listar_usuarios
+from datetime import date, timedelta
 
 
 NOMBRE_ARCHIVO='prestamos.json'
@@ -13,6 +15,7 @@ def seleccionar_estado():
     2. devuelto
     3. Vencido
     4. salir
+                    ''', 1,4)
                     
     if op==1:
         return 'activo'
@@ -23,7 +26,7 @@ def seleccionar_estado():
     else:
         print('saliendo')
                     
-                ''', 1,4)
+    
 
 
 def guardar_prestamos():
@@ -36,7 +39,8 @@ def guardar_prestamos():
     for elemento in registros_usuarios:
         if elemento.get('id','clave no encontrada')==id_usuario:
             diccionario['usuario_id']=elemento.get('id','clave no encontrada')
-            diccionario[nombre_usuario]= f"{elemento.get('nombre','clave no encontrada')}"{elemento.get('apellido','clave no encontrada')}""
+            diccionario['nombre_usuario ']= f"{elemento.get('nombre','clave no encontrada')}"
+            diccionario['apellido_usuario']=f"{elemento.get('apellido', 'clave no encontrada')}"
             break
     else:
         print('No se encontro el usuario')
@@ -53,7 +57,7 @@ def guardar_prestamos():
         return
     cantidad=validar_entero('Ingree la cantidad que queir prestas:')
     while cantidad > cantidad_disponible:
-        print(f'Solo queda {cantidad_disponible} disponible')
+        print(f'Solo queda {cantidad} disponible')
         cantidad=validar_entero('Ingrese la cantidad a prstar: ')
         diccionario['cantidad']=cantidad
 
@@ -63,7 +67,8 @@ def guardar_prestamos():
     diccionario['fecha_inicio']=str(fecha_inicio)
     diccionario['fecha_final']=str(fecha_final)
     print(f'la fecha de inicio es: {fecha_inicio} y la fecha final es: {fecha_final}')
-
+    diccionario['estado']=seleccionar_estado()
+    diccionario['observaciones']=validar_texto('Ingrese lo que piensa:')
     registros.append(diccionario)
     guardar(NOMBRE_ARCHIVO,registros)
     print('DATOS GUARDADOS CORRECTAMENTE!')
@@ -82,6 +87,7 @@ def listar_prestamos():
             Fecha inicio:    {elemento.get('fecha_inicio','clave erronea')}
             Fecha final:     {elemento.get('fecha_final','clave erronea')}
             Estado:          {elemento.get('estado','clave erronea')}
+            Observaciones:   {elemento.get('observaciones   ','clave erronea')}
             ''')
         
 def buscar_prestamos():
@@ -101,6 +107,7 @@ def buscar_prestamos():
                     Fecha inicio:    {elemento.get('fecha_inicio','clave erronea')}
                     Fecha final:     {elemento.get('fecha_final','clave erronea')}
                     Estado:          {elemento.get('estado','clave erronea')}
+                    Observaciones:   {elemento.get('observaciones   ','clave erronea')} 
                     ''')
                 return
         print('NO SE ENCONTRÓ EL ID: ',id)
@@ -149,7 +156,19 @@ def registrar_devoluciones():
             Herramienta:     {elemento.get('herramienta','clave erronea')}
             Cantidad:        {elemento.get('cantidad','clave erronea')}
             Fecha inicio:    {elemento.get('fecha_inicio','clave erronea')}
-                    ''')   
+                    ''')
+    id=validar_entero('Ingrese el id:')   
+    for elemento in registros:
+        if elemento.get('id','clave no encontrada')==id:
+            if elemento.get('estado','clave no encontrada')=='activo':
+                print('Ya se devolvio')
+                return
+            actualizar_herramientas(elemento.get('herramienta_id','clave no encontrada'))
+            elemento.get('estado','clave no encontrada')='devuelto'
+            guardar(NOMBRE_ARCHIVO, registros)
+            print('DATO ACTUALIZADO!')
+            return 
+        print('NO SE ENCONTRÓ EL ID: ',id)
 
 
 def eliminar_prestamos():

@@ -1,5 +1,5 @@
 from gestionar_json import *
-from validaciones import validar_menu,validar_entero
+from validaciones import validar_menu,validar_entero,validar_texto
 
 
 NOMBRE_ARCHIVO='categorias.json'
@@ -8,13 +8,15 @@ def guardar_categorias():
     registros=cargar(NOMBRE_ARCHIVO)
     diccionario={}
     diccionario['id']=generar_id(registros)
-    diccionario['nombre']=input('Ingrese el nombre: ')
+    diccionario['nombre']=validar_texto('Ingrese el nombre: ')
     registros.append(diccionario)
     guardar(NOMBRE_ARCHIVO,registros)
     print('DATOS GUARDADOS CORRECTAMENTE!')
 
 def listar_categorias():
     registros=cargar(NOMBRE_ARCHIVO)
+    if not registros:
+        print('no hay categorias')  
     for elemento in registros:
         print(f'''
             ****************************
@@ -94,16 +96,12 @@ def seleccionar_categoria():
     if not registros:
         print("No hay categorias registradas")
         return None
-
-    print("\nCATEGORIAS DISPONIBLES")
+    print("diponibles")
 
     for elemento in registros:
-        print(f"{elemento['id']}. {elemento['nombre']}")
-
+        print(f"{elemento.get['id','clave no encontrada']}. {elemento['nombre']}")
     id = validar_entero("Seleccione el id de la categoria: ")
-
     for elemento in registros:
-        if elemento['id'] == id:
-            return elemento['nombre']
-
+        if elemento.get['id','clave erronea'] == id:
+            return elemento.get['nombre','clave erronea']
     print("Categoria no encontrada")
